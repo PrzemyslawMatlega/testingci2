@@ -1,4 +1,4 @@
-name: Build
+name: BuildnDeploy
 on:
   push:
     branches:
@@ -29,3 +29,15 @@ jobs:
           path: |
             dist
             package.json
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-files
+      - name: Output content
+        run: ls -R
